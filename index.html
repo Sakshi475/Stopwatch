@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Stopwatch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stopwatch">
+    <div class="time" id="timeDisplay">0:0:0:0</div>
+    <button id="startBtn" onclick="startTimer()">Start</button>
+    <button id="stopBtn" onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+  </div>
+
+  <script>
+    let running = false;
+    let hour = 0;
+    let min = 0;
+    let sec = 0;
+    let milli = 0;
+    let interval;
+
+    function updateDisplay() {
+      document.getElementById('timeDisplay').innerText = hour + ':' + min + ':' + sec + ':' + milli;
+    }
+
+    function startTimer() {
+      if (!running) {
+        interval = setInterval(function () {
+          milli++;
+          if (milli == 100) { 
+            milli = 0;
+            sec++;
+          }
+          if (sec == 60) {
+            sec = 0;
+            min++;
+          }
+          if (min == 60) {
+            min = 0;
+            hour++;
+          }
+          updateDisplay();
+        }, 10); 
+        running = true;
+      }
+    }
+
+    function stopTimer() {
+      if (running) {
+        clearInterval(interval);
+        running = false;
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(interval);
+      running = false;
+      hour = 0;
+      min = 0;
+      sec = 0;
+      milli = 0;
+      updateDisplay();
+    }
+  </script>
+</body>
+</html>
